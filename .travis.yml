@@ -10,14 +10,17 @@ services:
 
 env:
   global:
-  # - secure: "encrypted-sonar-token"
   # - secure: "encrypted-dockerhub-username"
   # - secure: "encrypted-dockerhub-password"
-  - COMMIT=${TRAVIS_COMMIT::7}
-  - IMAGE_NAME=versiondemo
 
 jdk:
 - openjdk8
+
+addons:
+  sonarcloud:
+    organization: "genesis3k"
+    token:
+	 secure: "JaNKTIMcOg+69a0O1LKruewtz4jc8qXW7otZiQtIpycaYXRn813sE2LzlJCHr+8uvlt6MJFSnb9H8CHDtidq0vLErOneOHvJ7KZd11w3A2k//7UW9a8aWMEGZXHEJnV6PRR8bEFimIWCO75P8d5htyG+sDmQM+Qt8jiMxKldBnUtzRxScUYX6bBMDmzv4FgA7hpQsHd5KNxkhZeuctM5WzWEWDabd887s97fF+gWOVz6lsddpbxYaQm/rG7TE8ECFtr4G3ZZi9MnB2DVpsG3+70xU7ibNkDGLbGcJv/JQdihh3WadtqIqJj63VszgQklil2et+l/NTg564lxOaDTvvx7EEIxl2cMWufWNK5Aj5LWHLBm5k3Y6zHbd4hVfPK3FBRrD4ehYjTmhIWBc3313gUfokc86UYOCOaG/p6Bje94aiGtu49gBJQ6xPGMdHMJTHKW7sT0/1hRpY/73pvd64yFCaHxQJoLo/AXCNiK1DLtBvflT2pEqWN3NdopnbKDOVPCkXsUB7TMjBttHxmg4ypiQLk/l+MWn+MaX4hvknHyoKwSZPDVNQmAxH5sSMeu0WB3c6wphrlkyct5mLtopv5wV2LKcF0jE1mFSMTYnwJr9g1/bC6uMkD5PFfgZiZId9cmOF3O3q2AqpFAZdAJMcSltOAeGwIsHeSrI8p5rrg="
 
 # Travis CI has several steps:
 # https://docs.travis-ci.com/user/job-lifecycle/
@@ -25,9 +28,17 @@ jdk:
 # We use the defaults for installing dependencies, compiling and testing maven applications
 # In our case it is 'mvn install' followed by 'mvn test'
 
-# If a build is successful, the code is submitted for code coverage analysis by CodeCov
+script:
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+
+# If a build is successful, the code is containerised, and submitted for code coverage analysis by CodeCov
 after_success:
-#  - bash <(curl -s https://codecov.io/bash)
-  - docker build --tag  $IMAGE_NAME:$COMMIT .
+  #- docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
+  - export IMAGE_NAME=versiondemo
+  - docker build --tag  $IMAGE_NAME:$TAG .
   - docker images
-  # - docker push $IMAGE_NAME
+  #- docker push $IMAGE_NAME
+#Run Code Coverage
+  - bash <(curl -s https://codecov.io/bash)
