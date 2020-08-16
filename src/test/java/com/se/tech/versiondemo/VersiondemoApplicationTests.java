@@ -26,7 +26,7 @@ public class VersiondemoApplicationTests {
 
     @Value("${git.commit.id.abbrev:UNKNOWN}")
     private String commitSHAIdAbbrev;
-
+    
     @Test
     public void whenInjecting_shouldDisplay() throws Exception {
     	LOG.info("version:" + tagName);

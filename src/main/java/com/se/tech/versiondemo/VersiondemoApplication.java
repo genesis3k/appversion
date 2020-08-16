@@ -46,7 +46,7 @@ public class VersiondemoApplication {
 	//This endpoint on HTTP GET request, will respond with a JSON containing injected values from git.properties. 
 	//Below should be used if pure JSON format is required, without any additional text outside of JSON { } block.
 	@RequestMapping(value = "/version", method = RequestMethod.GET)
-    public Map<String, String> getAppInfo() {
+    public Map<String, String> versionInfo() {
         Map<String, String> result = new HashMap<>();
         //If tagname is empty, fall back to show the version number specified in pom.xml,which is used as git build version
         String tag = "";
@@ -65,7 +65,7 @@ public class VersiondemoApplication {
 	
 	//Create a JSON like string to include additional text outside of JSON { } block, like "myapplication" in below case
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	 public String versionInfo() {
+	 public String getAppInfo() {
 		//If tagname is empty, fall back to show the version number specified in pom.xml,which is used as git build version
 	    String tag = "";
         if (tagName.isEmpty())
