@@ -1,0 +1,34 @@
+# Travis CI Java documentation can be found in:
+# https://docs.travis-ci.com/user/languages/java/
+
+sudo: required
+dist: xenial
+language: java
+
+services:
+  - docker
+
+env:
+  global:
+  # - secure: "encrypted-sonar-token"
+  # - secure: "encrypted-dockerhub-username"
+  # - secure: "encrypted-dockerhub-password"
+  - COMMIT=${TRAVIS_COMMIT::7}
+  - IMAGE_NAME=versiondemo
+
+jdk:
+# - openjdk8
+- openjdk11
+
+# Travis CI has several steps:
+# https://docs.travis-ci.com/user/job-lifecycle/
+# The 'language: java' directive sets up sane defaults to test common java applications
+# We use the defaults for installing dependencies, compiling and testing maven applications
+# In our case it is 'mvn install' followed by 'mvn test'
+
+# If a build is successful, the code is submitted for code coverage analysis by CodeCov
+after_success:
+#  - bash <(curl -s https://codecov.io/bash)
+  - docker build --tag  $IMAGE_NAME:$COMMIT .
+  - docker images
+  # - docker push $IMAGE_NAME
