@@ -71,13 +71,15 @@
     					<excludeProperty>git.user.*</excludeProperty>
 					</excludeProperties>
 					<validationProperties>
-					<!-- verify that the current repository is not dirty -->    				
+					<!-- verify that the current repository is not dirty -->    	
+					<!-- Commented out in local env to avoid commit to git each time before build -->		
+						<!--  	
     					<validationProperty>
         					<name>validating git dirty</name>
         					<value>${git.dirty}</value>
-        					<!-- If below is set to false, build will fail if git is dirty. In local env, set to True to let build succeed anyway. -->
-        					<shouldMatchTo>true</shouldMatchTo>
+        					<shouldMatchTo>false</shouldMatchTo>
     					</validationProperty>
+    					-->
 					</validationProperties>
             	</configuration>
 			</plugin>
