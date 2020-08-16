@@ -58,7 +58,9 @@ Option 1. Please download the codes from this github and import this as a Maven 
 
 Option 2. Fork the repository to another one in GitHub or other Git repository, and integrat with Travis CI (and CodeCov & SonarCloud) If you have set up .travis.yml and Dockerfile correctly, you can run your own CI, and push the images to Dockerhub to download later to your local PC to run and test. 
 
-Option 3. This is most likely the easiest option to build and test the code, if you have a Docker environment setup in a machine. There is a Dockerfile.withoutCI is provided for this purpose to run without any CI pipeline. You can rename to Dockerfile and use for Docker run as below.
+Option 3. This is most likely the easiest option to build and test the code, if you have a Docker environment setup in a machine. Dockerfile.withoutCI is provided for this purpose to run without any CI pipeline. This is slightly different from the Dockerfile used for CI pipeline, because the build is done by CI.
+
+You can rename to Dockerfile and use for Docker run as below:
 
 - git clone https://github.com/genesis3k/appversion.git
 - cd appversion
