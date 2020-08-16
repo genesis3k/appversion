@@ -58,8 +58,8 @@ public class VersiondemoApplication {
         result.put("lastcommitsha", commitSHAIdAbbrev);
         result.put("description", "Demo to show Application version");
         
-        LOG.info("version:" + tag + "\n" + "lastcommitsha:" + commitSHAIdAbbrev + "\n" + 
-        		"description:" + "Demo to show Application version");
+        LOG.info("\nversion: " + tag + "\n" + "lastcommitsha: " + commitSHAIdAbbrev + "\n" + 
+        		"description: " + "Demo to show Application version");
         return result;
     }
 	
@@ -80,7 +80,7 @@ public class VersiondemoApplication {
 		json += "  \"description\": " + "\"Demo to show Application version\"" + "\n";
 		json += " }" + "\n]";
 		
-        LOG.info(json);
+        LOG.info("\n" + json);
 		return json;
 		
 	 }

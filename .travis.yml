@@ -17,8 +17,7 @@ env:
   - IMAGE_NAME=versiondemo
 
 jdk:
-# - openjdk8
-- openjdk11
+- openjdk8
 
 # Travis CI has several steps:
 # https://docs.travis-ci.com/user/job-lifecycle/
