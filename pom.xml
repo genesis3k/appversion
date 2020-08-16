@@ -28,12 +28,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<!-- 
 			<exclusions>
 				<exclusion>
 					<groupId>org.junit.vintage</groupId>
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
+			 -->
 		</dependency>
 	</dependencies>
 
@@ -46,6 +48,7 @@
 			<plugin>
     			<groupId>pl.project13.maven</groupId>
     			<artifactId>git-commit-id-plugin</artifactId>
+    			<version>3.0.1</version>
     			<executions>
         			<execution>
             			<id>get-the-git-infos</id>
@@ -60,13 +63,42 @@
             			</goals>
         			</execution>
     			</executions>
-    			<configuration>
+    			<configuration>    				
                 	<failOnNoGitDirectory>false</failOnNoGitDirectory>
                 	<generateGitPropertiesFile>true</generateGitPropertiesFile>
+                	<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
                 	<excludeProperties>
     					<excludeProperty>git.user.*</excludeProperty>
 					</excludeProperties>
+					<validationProperties>
+					<!-- verify that the current repository is not dirty -->    				
+    					<validationProperty>
+        					<name>validating git dirty</name>
+        					<value>${git.dirty}</value>
+        					<!-- If below is set to false, build will fail if git is dirty. In local env, set to True to let build succeed anyway. -->
+        					<shouldMatchTo>true</shouldMatchTo>
+    					</validationProperty>
+					</validationProperties>
             	</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.5</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
