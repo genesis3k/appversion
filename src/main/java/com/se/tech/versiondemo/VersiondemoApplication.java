@@ -19,9 +19,6 @@ public class VersiondemoApplication {
 	@Value("${git.tags}")
     private String tags;
  
-    @Value("${git.branch}")
-    private String branch;
-    
     @Value("${git.build.version}")
     private String buildVersion;
  
@@ -39,7 +36,6 @@ public class VersiondemoApplication {
 		StringBuffer strBuff = new StringBuffer();
 		strBuff.append("Application info\n");
 		strBuff.append("tags:" + tags + ",\n");
-		strBuff.append("branch:" + branch + ",\n");
 		strBuff.append("build version:" + buildVersion + ",\n");
 		strBuff.append("commit SHA Id:" + commitSHAId + "\n");
 		return strBuff.toString();
@@ -48,7 +44,10 @@ public class VersiondemoApplication {
 	@RequestMapping("/version")
     public Map<String, String> getCommitId() {
         Map<String, String> result = new HashMap<>();
-        result.put("version",buildVersion);
+        if (tags.isEmpty()) {
+        	tags = buildVersion;
+        }
+        result.put("version",tags);
         result.put("lastcommitsha", commitSHAId);
         result.put("description", "Demo to show Application version");
         return result;
