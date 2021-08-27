@@ -103,7 +103,6 @@ If you try **localhost:8080/** only, you will see pure JSON format, without any 
 
 ## Author
 
-* **Sanu Ehsan** - 
 
 ## License
 
